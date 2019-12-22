@@ -3,6 +3,7 @@
 body{
     color: #0019FF ;
     font-family: 'Poppins', sans-serif;
+    overflow: hidden;
 }
 a{
     color: #0019FF;
@@ -14,7 +15,9 @@ a{
     font-size: 25px;
     text-decoration: underline;
 }
-
+.main-picture{
+    margin-left: 50px;
+}
 .my-container{
     margin: 0 40px;
 }
@@ -45,6 +48,13 @@ a{
     .my-container{
         margin: 0 20px;
     }
+    .quote{
+        font-size: 28px;;
+    }
+    .link-books{
+        font-size: 17px;
+    }
+    
 }
 @media only screen and (max-width: 576px) {
     .site-logo{
@@ -63,9 +73,14 @@ a{
     .nav-btn{
         width: 40px;
     }
-}
-/* @media only screen and (min-width: 576px) {
-    .site-logo{
-        width: 100px;
+    .quote{
+        font-size: 19px;;
     }
-} */
+    .link-books{
+        font-size: 12px;
+    }
+    .main-picture{
+        margin-left: 0px;
+    }
+}
+
