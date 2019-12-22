@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
+body{
+    color: #0019FF ;
+    font-family: 'Poppins', sans-serif;
+}
+a{
+    color: #0019FF;
+}
+.quote{
+    font-size: 36px;;
+}
+.link-books{
+    font-size: 25px;
+    text-decoration: underline;
+}
+
+.my-container{
+    margin: 0 40px;
+}
+.my-btn{
+    color: #fff;
+    background-color: #0019FF;
+}
+.brdr{
+    border: #000 solid;
+}
+
+@media only screen and (min-width: 992px) {
+    .site-logo{
+        width: 175px;
+        padding-bottom: 9px;
+    }
+    .user-icon{
+        width: 40px;
+    }
+}
+@media only screen and (max-width: 992px) {
+    .site-logo{
+        width: 150px;
+    }
+    .user-icon{
+        width: 20px;
+    }
+    .my-container{
+        margin: 0 20px;
+    }
+}
+@media only screen and (max-width: 576px) {
+    .site-logo{
+        width: 130px;
+    }
+    .my-container{
+        margin: 0 10px;
+    }
+    .search-btn{
+        font-size: 12px;
+    }
+    .search-input{
+        width: 180px;
+        font-size: 12px;
+    }
+    .nav-btn{
+        width: 40px;
+    }
+}
+/* @media only screen and (min-width: 576px) {
+    .site-logo{
+        width: 100px;
+    }
+} */
