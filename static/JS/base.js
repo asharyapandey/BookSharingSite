@@ -103,3 +103,8 @@ function getCookie(name) {
     return cookieValue;
 }
 
+document.querySelector('.signup-toggle').addEventListener('click', () => {
+    $('#modalLogin').modal('hide');
+    $('#modalSignup').modal('show');
+})
+
