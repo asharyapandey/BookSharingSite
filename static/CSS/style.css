@@ -28,6 +28,9 @@ a{
 .brdr{
     border: #000 solid;
 }
+#error-alert{
+  font-size: 12px;
+}
 
 @media only screen and (min-width: 992px) {
     .site-logo{

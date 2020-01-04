@@ -35,8 +35,14 @@
 							<img src="{% static 'images/user.png' %}" alt="user photo" class="user-icon">
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalSignup">SignUp</a>
-							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalLogin">Log In</a>
+							{% if user.is_authenticated %}
+								<a class="dropdown-item" href="#">My Profile</a>
+								<a class="dropdown-item" href="#">SignasdfUp</a>
+								<a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
+							{% else %}
+								<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalSignup">Sign Up</a>
+								<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalLogin">Log In</a>
+							{% endif %}
 						</div>
 					</li>
 					<li class="nav-item pt-2 ml-2">
@@ -73,12 +79,13 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form class="login-form" action="" method="POST">
+				<form class="login-form">
+					{% csrf_token %}
 					<div class="modal-body">
 						<div class="form-label-group">
-							<input type="email" id="username" class="form-control" placeholder="Email address"
+							<input type="text" id="username" class="form-control" placeholder="Email address"
 								required autofocus>
-							<label for="username">Email address</label>
+							<label for="username">Username</label>
 						</div>
 
 						<div class="form-label-group">
@@ -88,6 +95,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
+						<p id="error-alert-login" class="text-danger mr-auto">fffff</p>
 						<button type="Submit" class="btn btn-primary btn-block rounded-pill">Log In</button>
 					</div>
 				</form>
@@ -132,7 +140,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<p id="error-alert" class="text-danger"></p>
+						<p id="error-alert" class="text-danger mr-auto"></p>
 						<button type="Submit" class="btn btn-primary btn-block rounded-pill">Register</button>
 					</div>
 				</form>
