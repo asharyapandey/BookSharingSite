@@ -1,7 +1,11 @@
 from django.shortcuts import render
+from django.http import JsonResponse
+from django.contrib.auth.models import User
 
-def register(request):
+def register(request ):
     if request.method == 'POST':
-        print(request.POST['username'])
+        username = request.POST['username']
+        welcome = f'welcome to the site Mr. {username}'
+        return JsonResponse({"data" : welcome})
 
-    return render(request, 'users/profile.html')
+    return JsonResponse({'data' : 'ayena'})
