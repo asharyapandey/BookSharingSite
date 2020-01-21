@@ -108,3 +108,8 @@ document.querySelector('.signup-toggle').addEventListener('click', () => {
     $('#modalSignup').modal('show');
 })
 
+
+function toggleLogin(){
+    $('#modalLogin').modal('show');
+}
+

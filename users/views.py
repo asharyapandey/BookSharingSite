@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
-from django.contrib import auth
+from django.contrib import auth, messages
+from django.contrib.auth.decorators import login_required
 
 def register(request ):
     if request.method == 'POST':
@@ -16,7 +17,7 @@ def register(request ):
             auth.login(request, user)
             return JsonResponse({"success": "true", "data" : "Registration Successfull"})
 
-    return JsonResponse({"success": "false", 'data' : 'Invalid'})
+    return render(request, 'users/register.html')
 
 def logout(request):
     auth.logout(request)
@@ -29,6 +30,16 @@ def login(request):
         user = auth.authenticate(username = username, password = password)
         if user is not None:
             auth.login(request, user)
-            return JsonResponse({"success": "true", "data" : "Log In Successful."})
+            messages.success(request, f'Login Succesful')
+            #return JsonResponse({"success": "true", "data" : "Log In Successful."})
+            return redirect('home_page')
         else:
-            return JsonResponse({"success": "false", "data" : "Invalid Credentials."})
+            #return JsonResponse({"success": "false", "data" : "Invalid Credentials."})
+            messages.warning(request, f'Login not Succesful')
+            return redirect('home_page')
+    
+    return render(request, 'users/login.html')
+
+
+def profile(request):
+    return render(request, 'users/profile.html')
