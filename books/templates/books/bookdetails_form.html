@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <form class="form-signin pt-5" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+        <div class="text-center mb-4">
+            <h1 class="h3 mb-3 font-weight-normal">Add Books</h1>
+            <p>
+                Add Books that you want to share.
+            </p>
+        </div>
+        <div>
+        {{ form.as_p }}
+        </div>
+
+
+        <button class="btn btn-lg btn-primary btn-block rounded-pill" type="submit">Add Book</button>
+    </form>
+{% endblock %}

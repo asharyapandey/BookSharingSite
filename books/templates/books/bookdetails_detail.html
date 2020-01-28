@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5 mr-3">
+    <div class="card border-primary mb-3" style="max-width: 740px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+        <img src="{{ book.image.url }}" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+        <div class="card-body">
+            <h4 class="card-title">{{ book.name }}</h4>
+            <h6 class="card-title">by {{ book.author }}</h6>
+            <h6 class="card-title">Publisher: {{ book.publisher }}</h6>
+            <h6 class="card-title">Published Year: {{ book.published_year }}</h6>
+            <h6 class="card-title">Pages: {{ book.pages }}</h6>
+            <h6 class="card-title">ISBN: {{ book.isbn }}</h6>
+            <h6 class="card-title">Belongs to: <strong>{{ book.added_by }}</strong></h6>
+            <div class="text-right">
+                <a href="" class="btn btn-primary rounded-pill mb-3">Request</a>
+            </div>
+            <p class="card-text">Description: <br> <small>{{ book.description }}.</small></p>
+        </div>
+        </div>
+    </div>
+    </div> 
+</div>    
+{% endblock %}

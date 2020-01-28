@@ -3,7 +3,6 @@
 body{
     color: #0019FF ;
     font-family: 'Poppins', sans-serif;
-    overflow: hidden;
 }
 a{
     color: #0019FF;
@@ -30,6 +29,14 @@ a{
 }
 #error-alert{
   font-size: 12px;
+}
+.category-image{
+  width: 88px;
+  height: 73px;
+}
+.category-image-fiction{
+  width: 62px;
+  height: 74px;
 }
 
 @media only screen and (min-width: 992px) {

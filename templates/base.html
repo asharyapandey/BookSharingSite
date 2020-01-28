@@ -34,7 +34,7 @@
 								<a class="dropdown-item" href="#">SignasdfUp</a>
 								<a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
 							{% else %}
-								<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalSignup">Sign Up</a>
+								<a class="dropdown-item" href="{% url 'register' %}">Sign Up</a>
 								<a class="dropdown-item" href="{% url 'login' %}">Log In</a>
 							{% endif %}
 						</div>
@@ -43,7 +43,7 @@
 						<a class="nav-link" href="#">Home</a>
 					</li>
 					<li class="nav-item pt-2 ml-2">
-						<a class="nav-link" href="#">Book Collection</a>
+						<a class="nav-link" href="{% url 'books-home' %}">Book Collection</a>
 					</li>
 				</ul>
 			</div>

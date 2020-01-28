@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container d-flex">
+    <div class="text-center">
+        <h5 class="pb-3">Search by category:</h5>
+        <img src="{% static 'images/educational.png' %}" class="category-image" alt="">
+        <hr>
+        <img src="{% static 'images/nonfiction.png' %}" class="category-image" alt="">
+        <hr>
+        <img src="{% static 'images/fiction.png' %}" class="category-image-fiction" alt="">
+        <hr>
+    </div>
+    <div class="ml-5">
+        <div class="row ml-5">
+            {% for book in books %}
+                <div class="col-md-4 pb-3" >
+                    <div class="card text-center mr-2" style="width: 13rem;">
+                        <img src="{{ book.image.url }}" class="card-img-top w-50 ml-5 mt-3 img-thumbnail" alt="..." >
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.name }}</h5>
+                            <p class="card-text"> {{ book.author }} </p>
+                            <a href="{% url 'books-detail' book.pk %}" class="btn btn-primary rounded-pill">View</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>    
+{% endblock %}
