@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <form class="pt-5" method="POST">
+    {% csrf_token %}
+        <div class="text-center mb-4">
+            <h1 class="mb-3 font-weight-normal text-danger">Are you sure you want to delete?</h1>
+            <p>
+                After clicking on confirm {{ book.name }} will be deleted.
+            </p>
+            <button class="btn btn-md btn-danger rounded-pill" type="submit">Confirm</button>
+            <a href="{% url 'books-detail' book.pk %}" class="btn btn-md btn-primary rounded-pill ml-1" type="submit">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

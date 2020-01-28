@@ -17,6 +17,10 @@
             <h6 class="card-title">ISBN: {{ book.isbn }}</h6>
             <h6 class="card-title">Belongs to: <strong>{{ book.added_by }}</strong></h6>
             <div class="text-right">
+                {% if user == book.added_by %}
+                <a href="{% url 'books-delete' book.pk %}" class="btn btn-outline-danger rounded-pill mb-3">Delete</a>
+                <a href="{% url 'books-update' book.pk %}" class="btn btn-outline-info rounded-pill mb-3">Update</a>
+                {% endif %}
                 <a href="" class="btn btn-primary rounded-pill mb-3">Request</a>
             </div>
             <p class="card-text">Description: <br> <small>{{ book.description }}.</small></p>
