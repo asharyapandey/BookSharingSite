@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block title %}
+    Book Collection
+{% endblock title %}
 {% block content %}
 <div class="container d-flex">
     <div class="text-center">
@@ -12,7 +15,7 @@
         <hr>
     </div>
     <div class="ml-5">
-        <div class="row ml-5">
+        <div class="row ">
             {% for book in books %}
                 <div class="col-md-4 pb-3" >
                     <div class="card text-center mr-2" style="width: 15rem;">

@@ -6,7 +6,12 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-	<title>Home</title>
+	<title>
+		ShareBooks | 
+		{% block title %}
+		{% endblock title %}
+	</title>
+	
 	<link rel="stylesheet" href="{% static 'CSS/bootstrap.css' %}" />
 	<link rel="stylesheet" href="{% static 'CSS/style.css' %}" />
 </head>
@@ -51,9 +56,10 @@
 	</div>
 	<!-- search button -->
 	<div class="my-container">
-		<form class="form-inline my-2 my-lg-0 justify-content-center">
+		<form class="form-inline my-2 my-lg-0 justify-content-center" method="GET" action="{% url 'books-home' %}">
+		{% csrf_token %}
 			<input class="form-control rounded-pill search-input" type="search" placeholder="Search"
-				aria-label="Search">
+				aria-label="Search" name="search">
 			<button class="btn my-btn rounded-pill search-btn" type="submit">Search</button>
 		</form>
 		<hr>

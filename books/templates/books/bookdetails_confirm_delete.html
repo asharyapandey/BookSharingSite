@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block title %}
+    Conformation
+{% endblock title %}
 {% block content %}
     <form class="pt-5" method="POST">
     {% csrf_token %}
