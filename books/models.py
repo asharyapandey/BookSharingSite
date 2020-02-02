@@ -30,3 +30,11 @@ class BookDetails(models.Model):
         db_table = 'book_details'
 
 
+
+class Request(models.Model):
+    requested_book = models.ForeignKey(BookDetails, on_delete = models.CASCADE, related_name='requested_book') 
+    requested_trade = models.ForeignKey(BookDetails, on_delete = models.CASCADE, related_name='requested_trade')
+    is_accepted = models.BooleanField()
+
+    class Meta:
+        db_table = 'request_table'

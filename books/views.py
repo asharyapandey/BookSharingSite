@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -8,8 +9,6 @@ from .models import BookDetails
 from django.utils.datastructures import MultiValueDictKeyError
 
 
-def books(request):
-    return render(request, 'books/index.html')
 
 class BookListView(ListView):
     context_object_name = 'books'
@@ -63,9 +62,15 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-class BookSearchView(View):
 
-    def post(self, request):
-        queryset = BookDetails.objects.filter(name = request.POST['search'])
-        context_object_name = 'books'
-        template_name = 'books/books.html'
+def request(request, id):
+    book = BookDetails.objects.get(id = id)
+    requested_to = User.objects.filter(id = book.added_by.id)
+    requested_trades = BookDetails.objects.filter(added_by = request.user)
+    context = {
+        'requested_book' : book,
+        'requested_trades' : requested_trades,
+    }
+    if request.method == 'POST':
+        request.POST['']
+    return render(request, 'books/request.html', context)

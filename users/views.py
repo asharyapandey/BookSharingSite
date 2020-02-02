@@ -1,13 +1,18 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
+from books.models import BookDetails
 
 
 @login_required(login_url='/users/login/')
-def profile(request):
-    return render(request, 'users/profile.html')
+def profile(request, username):
+    user = User.objects.get(username = username)
+    user_books = BookDetails.objects.filter(added_by = user.id)
+    context = {
+        'books' : user_books
+    }
+    return render(request, 'users/profile.html', context)
 
 
 def register(request ):

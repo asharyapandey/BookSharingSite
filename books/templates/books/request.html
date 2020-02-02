@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Book Request
+{% endblock title %}
+{% block content %}
+    <div class="container">
+    <form action="">
+        <div class="form-group">
+            <label for="requested_by">Requested by:</label>
+            <input type="text" id="requested_by" name="requested_by" class="form-control" value="{{ user.username }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="requested_to">Requested to:</label>
+            <input type="text" id="requested_to" name="requested_to" class="form-control" value="{{ requested_book.added_by.username }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="requested_book">Requested Book:</label>
+            <input type="text" id="requested_book" name="requested_book" class="form-control" value="{{ requested_book.name }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="requested_trade">Which book do you want to trade?</label>
+            <select class="form-control" name="requested_trade" id="requested_trade">
+                {% for requested_trade in requested_trades %}
+                    <option>{{ requested_trade.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-md btn-primary rounded-pill text-center" type="submit">Register</button>
+        </div>
+    </form>
+    </div>
+{% endblock %}
