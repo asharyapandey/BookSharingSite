@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Conformation
+{% endblock title %}
+{% block content %}
+    <form class="pt-5" method="POST" action="{% url 'books-request-delete' requested.id %}">
+    {% csrf_token %}
+        <div class="text-center mb-4">
+            <h1 class="mb-3 font-weight-normal text-danger">Are you sure you want to delete?</h1>
+            <p>
+                After clicking on confirm request will be deleted.
+            </p>
+            <button class="btn btn-md btn-danger rounded-pill" type="submit">Confirm</button>
+            <a href="{% url 'profile' user.username %}" class="btn btn-md btn-primary rounded-pill ml-1" type="submit">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

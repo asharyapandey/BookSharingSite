@@ -5,7 +5,8 @@
 {% endblock title %}
 {% block content %}
     <div class="container">
-    <form action="">
+    <form action="{% url 'books-request-update' current_request.id %}" method="POST">
+        {% csrf_token %}
         <div class="form-group">
             <label for="requested_by">Requested by:</label>
             <input type="text" id="requested_by" name="requested_by" class="form-control" value="{{ user.username }}" readonly>
@@ -27,7 +28,7 @@
             </select>
         </div>
         <div class="text-center">
-            <button class="btn btn-md btn-primary rounded-pill text-center" type="submit">Register</button>
+            <button class="btn btn-md btn-primary rounded-pill text-center" type="submit">Request</button>
         </div>
     </form>
     </div>

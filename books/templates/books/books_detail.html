@@ -24,7 +24,7 @@
                     <a href="{% url 'books-delete' book.pk %}" class="btn btn-outline-danger rounded-pill mb-3">Delete</a>
                     <a href="{% url 'books-update' book.pk %}" class="btn btn-outline-info rounded-pill mb-3">Update</a>
                 {% else %}
-                    <a href="" class="btn btn-primary rounded-pill mb-3">Request</a>
+                    <a href="{% url 'books-request' book.pk %}" class="btn btn-primary rounded-pill mb-3">Request</a>
                 {% endif %}
             </div>
             <p class="card-text">Description: <br> <small>{{ book.description }}.</small></p>

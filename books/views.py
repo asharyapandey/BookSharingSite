@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views import View 
-from .models import BookDetails
+from .models import BookDetails, Request
 from django.utils.datastructures import MultiValueDictKeyError
 
 
@@ -64,6 +64,7 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 def request(request, id):
+    #TODO put in a check to see if the book has already been requested
     book = BookDetails.objects.get(id = id)
     requested_to = User.objects.filter(id = book.added_by.id)
     requested_trades = BookDetails.objects.filter(added_by = request.user)
@@ -72,5 +73,38 @@ def request(request, id):
         'requested_trades' : requested_trades,
     }
     if request.method == 'POST':
-        request.POST['']
+        requested_by = User.objects.get(username = request.POST['requested_by'])
+        rtrade = request.POST['requested_trade']
+        requested_trade = BookDetails.objects.get(name = rtrade, added_by = requested_by.id)
+        new_request = Request(requested_book = book, requested_trade = requested_trade)
+        new_request.save()
+        return redirect('books-home')
+    return render(request, 'books/request.html', context)
+
+def request_delete(request, id):
+    requested = Request.objects.get(id = id)    
+    if request.method == 'POST':
+        requested.delete()
+    context = {
+        'requested' : requested
+    }
+    return render(request, 'books/request_delete.html', context)
+
+def request_update(request, id):
+    current_request = Request.objects.get(id = id)
+    book = BookDetails.objects.get(id = current_request.requested_book.id)
+    requested_trades = BookDetails.objects.filter(added_by = request.user)
+    context = {
+        'requested_book' : book,
+        'requested_trades' : requested_trades,
+        'current_request' : current_request,
+    }
+    if request.method == 'POST':
+        requested_by = User.objects.get(username = request.POST['requested_by'])
+        rtrade = request.POST['requested_trade']
+        requested_trade = BookDetails.objects.get(name = rtrade, added_by = requested_by.id)
+        current_request = Request.objects.get(id = id)
+        current_request.requested_trade = requested_trade
+        current_request.save()
+        return redirect('books-home')
     return render(request, 'books/request.html', context)

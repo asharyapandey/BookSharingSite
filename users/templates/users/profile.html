@@ -26,7 +26,7 @@ Profile | {{ user.username }}
                         <p>E-Mail   : {{ user.email }}</p>
                     </div>
                     <div class="tab-pane fade" id="edit-profile" role="tabpanel" aria-labelledby="edit-profile-tab">
-                        <form action="">
+                        <form action="{% url 'update' user.id %}">
                             <div class="form-label-group">
                                 <input type="text" id="username" name="username" class="form-control" placeholder="Username" required value = "{{ user.username }}">
                                 <label for="username">Username</label>
@@ -41,12 +41,35 @@ Profile | {{ user.username }}
                     <div class="tab-pane fade" id="added-books" role="tabpanel" aria-labelledby="added-books-tab">
                         <ul class="list-group list-group-flush">
                             {% for book in books %}
-                                <li class="list-group-item"><a href="{% url 'books-detail' book.pk %}">{{ book.name }}</a></li>
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <img src="{{ book.image.url }}" class="mr-3" width="80px" alt="...">
+                                        <div class="media-body">
+                                            <a class="mt-0" href="{% url 'books-detail' book.pk %}">{{ book.name }}</a> <br>
+                                            <a href="{% url 'books-delete' book.pk %}" class="btn btn-sm btn-outline-danger rounded-pill mt-3">Delete</a>
+                                            <a href="{% url 'books-update' book.pk %}" class="btn btn-sm btn-outline-info rounded-pill mt-3">Update</a>
+                                        </div>
+                                    </div>
+                                </li>
                             {% endfor %}
                         </ul>
                     </div>
                     <div class="tab-pane fade" id="created-requests" role="tabpanel" aria-labelledby="created-requests-tab">
-                        requests
+                        <ul class="list-group list-group-flush">
+                            {% for user_request in user_requests %}
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <img src="{{ user_request.requested_book.image.url }}" class="mr-3" width="80px" alt="...">
+                                        <div class="media-body">
+                                            <p><span class="text-muted">Requested Book  : </span> {{ user_request.requested_book }}</p>
+                                            <p><span class="text-muted">Requested Trade : </span> {{ user_request.requested_trade }}</p>
+                                            <a href="{% url 'books-request-delete' user_request.id %}" class="btn btn-sm btn-outline-danger rounded-pill mt-1">Delete</a>
+                                            <a href="{% url 'books-request-update' user_request.id %}" class="btn btn-sm btn-outline-info rounded-pill mt-1">Update</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>
