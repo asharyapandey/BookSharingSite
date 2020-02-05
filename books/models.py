@@ -35,6 +35,7 @@ class Request(models.Model):
     requested_book = models.ForeignKey(BookDetails, on_delete = models.CASCADE, related_name='requested_book') 
     requested_trade = models.ForeignKey(BookDetails, on_delete = models.CASCADE, related_name='requested_trade')
     is_accepted = models.BooleanField(default = False)
+    is_declined = models.BooleanField(default = False)
 
     def __str__(self):
         return  f'requested book is { self.requested_book } trade is { self.requested_trade }'

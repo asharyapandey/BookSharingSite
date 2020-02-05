@@ -13,15 +13,15 @@ from django.utils.datastructures import MultiValueDictKeyError
 class BookListView(ListView):
     context_object_name = 'books'
     template_name = 'books/books.html'
+    paginate_by = 6
 
     def get_queryset(self):
         try:
             term = self.request.GET['search']
             messages.info(self.request, f'You Searched for {term}')
-            return BookDetails.objects.filter(name__contains = term)
+            return BookDetails.objects.filter(name__icontains = term)
         except MultiValueDictKeyError:
             return BookDetails.objects.all() 
-
 
 
 class BookDetailView(DetailView):
@@ -85,6 +85,7 @@ def request_delete(request, id):
     requested = Request.objects.get(id = id)    
     if request.method == 'POST':
         requested.delete()
+        return redirect('profile')
     context = {
         'requested' : requested
     }
@@ -107,4 +108,15 @@ def request_update(request, id):
         current_request.requested_trade = requested_trade
         current_request.save()
         return redirect('books-home')
-    return render(request, 'books/request.html', context)
+    return render(request, 'books/request_update.html', context)
+
+def filter(request, category):
+    if category == 'E' or category == 'F' or category =='N':
+        result = BookDetails.objects.filter(category = category)
+        term = 'Educational' if category == 'E' else 'Fiction' if category == 'F' else 'Non-Fiction'
+        messages.info(request, f'You Filtered {term}')
+    context = {
+        'books' : result
+    }
+    return render(request, 'books/books.html', context)
+

@@ -4,16 +4,18 @@
     Book Collection
 {% endblock title %}
 {% block content %}
-<div class="container d-flex">
-    <div class="text-center">
-        <h5 class="pb-3">Search by category:</h5>
-        <img src="{% static 'images/educational.png' %}" class="category-image" alt="">
-        <hr>
-        <img src="{% static 'images/nonfiction.png' %}" class="category-image" alt="">
-        <hr>
-        <img src="{% static 'images/fiction.png' %}" class="category-image-fiction" alt="">
-        <hr>
-    </div>
+<div class="text-center mb-3 py-3 filter-div">
+    <a href="{% url 'books-filter' 'E' %}">
+        <img src="{% static 'images/educational.png' %}" class="category-image " alt="" >
+    </a>
+    <a href="{% url 'books-filter' 'N' %}">
+        <img src="{% static 'images/nonfiction.png' %}" class="category-image ml-5" alt="">
+    </a>
+    <a href="{% url 'books-filter' 'F' %}">
+        <img src="{% static 'images/fiction.png' %}" class="category-image-fiction ml-5" alt="">
+    </a>
+</div>
+<div class="container">
     <div class="ml-5">
         <div class="row ">
             {% for book in books %}
@@ -22,7 +24,7 @@
                         <img src="{{ book.image.url }}" class="card-img-top w-50 ml-5 mt-3 img-thumbnail" alt="..." >
                         <div class="card-body">
                             <h5 class="card-title">{{ book.name }}</h5>
-                            <p class="card-text"> {{ book.author }} </p>
+                            <p class="card-text text-muted"> {{ book.author }} </p>
                             <a href="{% url 'books-detail' book.pk %}" class="btn btn-primary rounded-pill">View</a>
                         </div>
                     </div>
@@ -30,5 +32,26 @@
             {% endfor %}
         </div>
     </div>
-</div>    
+</div>
+<div class="container text-right">
+    {% if is_paginated %}
+
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-primary mb-5">Previous</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a href="?page={{ num }}" class="btn btn-primary mb-5">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{ num }}" class="btn btn-outline-primary mb-5">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-primary mb-5">Next</a>
+            {% endif %}
+
+    {% endif %}  
+</div>  
 {% endblock %}

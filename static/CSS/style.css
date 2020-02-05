@@ -38,6 +38,12 @@ a{
   width: 62px;
   height: 74px;
 }
+.filter-div{
+  background-color: #F7F5F5;
+}
+.error{
+  color: red;
+}
 
 @media only screen and (min-width: 992px) {
     .site-logo{

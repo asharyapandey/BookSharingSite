@@ -29,7 +29,7 @@ def register(request ):
         except User.DoesNotExist:
             user = User.objects.create_user(username = username, email = email, password = password)
             auth.login(request, user)
-            messages.warning(request, f'Registration Successfull')
+            messages.info(request, f'Registration Successfull')
             return redirect('register')
 
     return render(request, 'users/register.html')
@@ -65,3 +65,25 @@ def update(request, id):
         return redirect('profile')
 
     return render(request, 'users/register.html')
+
+def notification(request, username):
+    accepted_requests = Request.objects.filter(requested_trade__added_by__id = request.user.id)
+    incoming_requests = Request.objects.filter(requested_book__added_by__id = request.user.id)
+    context = {
+        'accepted_requests' : accepted_requests,
+        'incoming_requests' : incoming_requests
+    }
+    if request.method == 'POST':
+        is_accepted = request.POST['is_accepted']
+        request_id = request.POST['request_id']
+        this_request = Request.objects.get(id = request_id)
+        if is_accepted == True:
+            this_request.is_accepted = True
+            this_request.is_declined = False
+            this_request.save()
+        else:
+            this_request.is_declined = True
+            this_request.is_accepted = False
+            this_request.save()
+        return redirect('notification', username = request.user.username)
+    return render(request, 'users/notification.html', context)

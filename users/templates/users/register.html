@@ -4,7 +4,8 @@
     Register
 {% endblock title %}
 {% block content %}
-    <form class="form-signin pt-5">
+    <form class="form-signin pt-5 register-form" method="POST" action="{% url 'register' %}">
+        {% csrf_token %}
         <div class="text-center mb-4">
             <h1 class="h3 mb-3 font-weight-normal">Register</h1>
             <p>
@@ -14,21 +15,25 @@
         <div class="form-label-group">
             <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
             <label for="username">Username</label>
+            <small class="error"></small>
         </div>
 
         <div class="form-label-group">
-            <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required>
             <label for="email">Email address</label>
+            <small class="error"></small>
         </div>
 
         <div class="form-label-group">
             <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
             <label for="password">Password</label>
+            <small class="error"></small>
         </div>
 
         <div class="form-label-group">
-            <input type="password" id="confirmPassword" name="username" class="form-control" placeholder="Confirm Password" required>
+            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password" required>
             <label for="confirmPassword">Confirm Password</label>
+            <small class="error"></small>
         </div>
 
         <button class="btn btn-lg btn-primary btn-block rounded-pill" type="submit">Register</button>
