@@ -4,7 +4,6 @@
 Profile | {{ user.username }}
 {% endblock title %}
 {% block content %}
-<h1>{{ user.username }}</h1>
     <div class="container">
         <div class="row">
             <div class="col-3">
@@ -22,8 +21,8 @@ Profile | {{ user.username }}
             <div class="col-9">
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <p>Username : {{ user.username }}</p>
-                        <p>E-Mail   : {{ user.email }}</p>
+                        <p>Username : <span class="text-dark">{{ user.username }}</span></p>
+                        <p>E-Mail   : <span class="text-dark">{{ user.email }} </span></p>
                     </div>
                     <div class="tab-pane fade" id="edit-profile" role="tabpanel" aria-labelledby="edit-profile-tab">
                         <form action="{% url 'update' user.id %}">
