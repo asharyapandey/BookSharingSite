@@ -7,9 +7,9 @@ class BookDetails(models.Model):
     name = models.CharField(max_length = 100)
     author = models.CharField(max_length = 100)
     publisher = models.CharField(max_length = 500)
-    pages =  models.CharField(max_length = 10)
-    published_year = models.CharField(max_length = 4)
-    isbn = models.CharField(max_length = 100)
+    pages =  models.IntegerField()
+    published_year = models.IntegerField()
+    isbn = models.CharField(max_length = 13)
     description = models.TextField()
     CATEGORY_OF_BOOKS =[
         ('E','Educational'),
