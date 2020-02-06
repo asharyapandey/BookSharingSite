@@ -1,5 +1,12 @@
 from django.urls import path
-from .views import BookListView, BookDetailView, BookCreateView, BookUpdateView, BookDeleteView
+from .views import (
+    BookListView,
+    BookDetailView,
+    BookCreateView,
+    BookUpdateView,
+    BookDeleteView,
+    BookFilterView,
+)
 from . import views
 
 
@@ -12,7 +19,7 @@ urlpatterns = [
     path('request/<int:id>/', views.request, name='books-request'),
     path('request/<int:id>/delete', views.request_delete, name='books-request-delete'),
     path('request/<int:id>/update', views.request_update, name='books-request-update'),
-    path('filter/<str:category>/', views.filter, name='books-filter'),
+    path('filter/<str:category>/', BookFilterView.as_view(), name='books-filter'),
 ]
 
 

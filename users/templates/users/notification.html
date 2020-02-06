@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-Norifications | {{ user.username }}
+Notifications | {{ user.username }}
 {% endblock title %}
 {% block content %}
     <div class="container d-flex">
@@ -15,11 +15,13 @@ Norifications | {{ user.username }}
                             <div class="media-body">
                                 <small><span class="text-muted">Requested Book  : </span> {{ user_request.requested_book }}</small> <br>
                                 <small><span class="text-muted mt-0">Requested Trade : </span> {{ user_request.requested_trade }}</small><br>
-                                {% if user_request.is_accepted == False %}
+                                {% if user_request.is_accepted == False and user_request.is_declined == False %}
                                     <small class="text-danger"><span class="text-muted">Request Status : </span> Pending</small><br>
                                     <a href="{% url 'books-request-update' user_request.id %}" class="btn btn-sm btn-outline-info rounded-pill mt-2">Update</a>
+                                {% elif user_request.is_declined == True %}    
+                                    <small class="text-danger"><span class="text-muted">Request Status : </span> Rejected </small><br>
                                 {% else %}
-                                    <small class="text-danger"><span class="text-muted">Request Status : </span> Accepted </small><br>
+                                    <small class="text-info"><span class="text-muted">Request Status : </span> Accepted </small><br>
                                 {% endif %}
                                 <a href="{% url 'books-request-delete' user_request.id %}" class="btn btn-sm btn-outline-danger rounded-pill mt-2">Delete</a>
                             </div>
@@ -38,10 +40,12 @@ Norifications | {{ user.username }}
                             <div class="media-body">
                                 <small><span class="text-muted mt-0">{{ incoming_request.requested_trade.username }} requested your book</span> "{{ incoming_request.requested_book }}"</small><br>
                                 <small><span class="text-muted">Wants to trade : </span> {{ incoming_request.requested_trade }}</small> <br>
-                                {% if incoming_request.is_accepted == False %}
+                                {% if incoming_request.is_accepted == False and incoming_request.is_declined == False %}
                                     <small class="text-danger"><span class="text-muted">Request Status : </span> Pending</small><br>
                                     <button class="btn btn-sm btn-outline-info rounded-pill mt-2 btnAccept" onclick="acceptClick(this)" value="{{ incoming_request.id }}">Accept</button>
                                     <button class="btn btn-sm btn-outline-danger rounded-pill mt-2 btnReject" onclick="rejectClick(this)" value="{{ incoming_request.id }}">Reject</button>
+                                {% elif incoming_request.is_declined == True %}    
+                                    <small class="text-danger"><span class="text-muted">Request Status : </span> Rejected </small><br>
                                 {% else %}
                                     <small class="text-primary"><span class="text-muted">Request Status : </span> Accepted </small><br>
                                 {% endif %}

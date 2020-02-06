@@ -26,6 +26,10 @@ class BookDetails(models.Model):
     def get_absolute_url(self):
         return reverse('books-detail', kwargs={'pk' : self.pk})
 
+    def delete(self, *args, **kwargs ):
+        self.image.delete()
+        super().delete(*args, **kwargs)
+
     class Meta:
         db_table = 'book_details'
 

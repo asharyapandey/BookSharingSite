@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -7,7 +7,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.views import View 
 from .models import BookDetails, Request
 from django.utils.datastructures import MultiValueDictKeyError
-
+from django.contrib.auth.decorators import login_required
 
 
 class BookListView(ListView):
@@ -62,9 +62,8 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-
+@login_required(login_url='/users/login/')
 def request(request, id):
-    #TODO put in a check to see if the book has already been requested
     book = BookDetails.objects.get(id = id)
     requested_to = User.objects.filter(id = book.added_by.id)
     requested_trades = BookDetails.objects.filter(added_by = request.user)
@@ -76,16 +75,23 @@ def request(request, id):
         requested_by = User.objects.get(username = request.POST['requested_by'])
         rtrade = request.POST['requested_trade']
         requested_trade = BookDetails.objects.get(name = rtrade, added_by = requested_by.id)
-        new_request = Request(requested_book = book, requested_trade = requested_trade)
-        new_request.save()
-        return redirect('books-home')
+        #check to see if the book has already been requested
+        try:
+            new_request = Request.objects.get(requested_book = book, requested_trade = requested_trade)
+            messages.warning(request, f'You have already requested this book')
+            return redirect('books-home')
+        except Request.DoesNotExist:
+            new_request = Request(requested_book = book, requested_trade = requested_trade)
+            new_request.save()
+            messages.warning(request, f'Requested: {book.name}')
+            return redirect('books-home')
     return render(request, 'books/request.html', context)
 
 def request_delete(request, id):
     requested = Request.objects.get(id = id)    
     if request.method == 'POST':
         requested.delete()
-        return redirect('profile')
+        return redirect('profile', username = request.user.username)
     context = {
         'requested' : requested
     }
@@ -110,13 +116,10 @@ def request_update(request, id):
         return redirect('books-home')
     return render(request, 'books/request_update.html', context)
 
-def filter(request, category):
-    if category == 'E' or category == 'F' or category =='N':
-        result = BookDetails.objects.filter(category = category)
-        term = 'Educational' if category == 'E' else 'Fiction' if category == 'F' else 'Non-Fiction'
-        messages.info(request, f'You Filtered {term}')
-    context = {
-        'books' : result
-    }
-    return render(request, 'books/books.html', context)
+class BookFilterView(ListView):
+    context_object_name = 'books'
+    template_name = 'books/books.html'
+    paginate_by = 6
 
+    def get_queryset(self):
+        return BookDetails.objects.filter(category=self.kwargs['category'])

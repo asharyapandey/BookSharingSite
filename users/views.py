@@ -77,7 +77,7 @@ def notification(request, username):
         is_accepted = request.POST['is_accepted']
         request_id = request.POST['request_id']
         this_request = Request.objects.get(id = request_id)
-        if is_accepted == True:
+        if is_accepted == 'True':
             this_request.is_accepted = True
             this_request.is_declined = False
             this_request.save()
