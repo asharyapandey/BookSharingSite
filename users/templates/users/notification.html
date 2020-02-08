@@ -31,7 +31,7 @@ Notifications | {{ user.username }}
             </ul>
         </div>
         <div class="col-md-6">
-            <h4>Book Requests</h4>
+            <h4>Book Requested to You</h4>
             <ul class="list-group list-group-flush">
                 {% for incoming_request in incoming_requests %}
                     <li class="list-group-item">
@@ -41,9 +41,9 @@ Notifications | {{ user.username }}
                                 <small><span class="text-muted mt-0">{{ incoming_request.requested_trade.username }} requested your book</span> "{{ incoming_request.requested_book }}"</small><br>
                                 <small><span class="text-muted">Wants to trade : </span> {{ incoming_request.requested_trade }}</small> <br>
                                 {% if incoming_request.is_accepted == False and incoming_request.is_declined == False %}
-                                    <small class="text-danger"><span class="text-muted">Request Status : </span> Pending</small><br>
-                                    <button class="btn btn-sm btn-outline-info rounded-pill mt-2 btnAccept" onclick="acceptClick(this)" value="{{ incoming_request.id }}">Accept</button>
-                                    <button class="btn btn-sm btn-outline-danger rounded-pill mt-2 btnReject" onclick="rejectClick(this)" value="{{ incoming_request.id }}">Reject</button>
+                                    <small class="text-danger" id="requestStatus{{ incoming_request.id }}"><span class="text-muted">Request Status : </span> Pending</small><br>
+                                    <button class="btn btn-sm btn-outline-info rounded-pill mt-2 btnAccept" id="btnAccept{{ incoming_request.id }}" onclick="acceptClick(this)" value="{{ incoming_request.id }}">Accept</button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-pill mt-2 btnReject" id="btnReject{{ incoming_request.id }}"  onclick="rejectClick(this)" value="{{ incoming_request.id }}">Reject</button>
                                 {% elif incoming_request.is_declined == True %}    
                                     <small class="text-danger"><span class="text-muted">Request Status : </span> Rejected </small><br>
                                 {% else %}

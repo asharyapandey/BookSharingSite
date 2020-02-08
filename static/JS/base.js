@@ -53,21 +53,13 @@ function acceptClick(event) {
     data.append('is_accepted', 'True');
     data.append('request_id', event.value);
     request.send(data);
+    afterAcceptClick(event);
     return false;
 }
 
-function filterNonFictionClick() {
-    const request = new XMLHttpRequest();
-    request.open('POST', 'books/search/');
-    request.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
-    const data = new FormData();
-    data.append('search', 'E');
-    request.send(data);
-    return false;
-}
+
 
 function rejectClick(event) {
-    //alert("The URL of this page is: " + window.location.href);
     const request = new XMLHttpRequest();
     request.open('POST', window.location.href);
     request.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
@@ -75,9 +67,26 @@ function rejectClick(event) {
     data.append('is_accepted', 'False');
     data.append('request_id', event.value);
     request.send(data);
+    afterRejectClick(event);
     return false;
 }
-
+function afterAcceptClick(event) {
+    let id = `#requestStatus${event.value}` 
+    const requestStatus = document.querySelector(id);
+    const btnAccept = document.querySelector(`#btnAccept${event.value}`);
+    const btnReject = document.querySelector(`#btnReject${event.value}`);
+    requestStatus.innerHTML = '<span class="text-muted">Request Status : </span> Accepted ';
+    btnAccept.setAttribute('class', 'd-none');
+    btnReject.setAttribute('class', 'd-none');
+}
+function afterRejectClick(event) {
+    let id = `#requestStatus${event.value}` 
+    const requestStatus = document.querySelector(id);
+    const btnAccept = document.querySelector(`#btnAccept${event.value}` );
+    const btnReject = document.querySelector(`#btnReject${event.value}` );
+    requestStatus.innerHTML = '<span class="text-danger">Request Status : </span> Rejected ';
+    btnReject.setAttribute('class', 'd-none');
+}
 // wat.forEach(element => {
 //     element.setAttribute('class', 'form-label-group')
 // });
