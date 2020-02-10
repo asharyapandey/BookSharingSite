@@ -10,34 +10,39 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.decorators import login_required
 
 
-class BookListView(ListView):
+# NOTE Classed based view is used to simplify the common CRUD process 
+
+class BookListView(ListView):#class based view for search and view all the books
     context_object_name = 'books'
-    template_name = 'books/books.html'
-    paginate_by = 6
+    template_name = 'books/books.html'#name of the template to view
+    paginate_by = 6 #to paginate 6 books per page .. buttons are added in the front end
 
     def get_queryset(self):
-        try:
+        try:#if the user searched, then it will return data according to the term 
             term = self.request.GET['search']
             messages.info(self.request, f'You Searched for {term}')
             return BookDetails.objects.filter(name__icontains = term)
         except MultiValueDictKeyError:
+            #if the user didnt search this will handle that error and return all objects
             return BookDetails.objects.all() 
 
 
-class BookDetailView(DetailView):
+class BookDetailView(DetailView):#class based view to view the book details
     model = BookDetails
     context_object_name = 'book'
     template_name = 'books/books_detail.html'
 
-class BookCreateView(LoginRequiredMixin, CreateView):
+class BookCreateView(LoginRequiredMixin, CreateView):#class based view for adding books
+    #LoginRequiredMixin allows only logged in users to add books
     model = BookDetails
-    fields= ['name', 'author', 'publisher', 'pages', 'published_year', 'isbn', 'category', 'description', 'image']
+    fields = ['name', 'author', 'publisher', 'pages', 'published_year', 'isbn', 'category', 'description', 'image']
 
     def form_valid(self, form):
         form.instance.added_by = self.request.user
         return super().form_valid(form)
 
 class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    #UserPassesTestMixin allows only users who added book to Updated and is checked test_func
     model = BookDetails
     fields= ['name', 'author', 'publisher', 'pages', 'published_year', 'isbn', 'category', 'description', 'image']
 
@@ -54,7 +59,7 @@ class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = BookDetails
     context_object_name = 'book'
-    success_url = reverse_lazy('books-home')
+    success_url = reverse_lazy('books-home')#to go to home after deleting a book
 
     def test_func(self):
         book = self.get_object()
@@ -63,10 +68,10 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 @login_required(login_url='/users/login/')
-def request(request, id):
-    book = BookDetails.objects.get(id = id)
-    requested_to = User.objects.filter(id = book.added_by.id)
-    requested_trades = BookDetails.objects.filter(added_by = request.user)
+def request(request, id):#this view handles the user book request
+    book = BookDetails.objects.get(id = id)#get the requested book
+    requested_to = User.objects.filter(id = book.added_by.id)#get the requested book user
+    requested_trades = BookDetails.objects.filter(added_by = request.user)#get the book to trade(added by the current user)
     context = {
         'requested_book' : book,
         'requested_trades' : requested_trades,
@@ -87,8 +92,8 @@ def request(request, id):
             return redirect('books-home')
     return render(request, 'books/request.html', context)
 
-def request_delete(request, id):
-    requested = Request.objects.get(id = id)    
+def request_delete(request, id):#delete the book request
+    requested = Request.objects.get(id = id)  
     if request.method == 'POST':
         requested.delete()
         return redirect('profile', username = request.user.username)
@@ -97,10 +102,10 @@ def request_delete(request, id):
     }
     return render(request, 'books/request_delete.html', context)
 
-def request_update(request, id):
-    current_request = Request.objects.get(id = id)
-    book = BookDetails.objects.get(id = current_request.requested_book.id)
-    requested_trades = BookDetails.objects.filter(added_by = request.user)
+def request_update(request, id):#update the book request
+    current_request = Request.objects.get(id = id)#update the book request
+    book = BookDetails.objects.get(id = current_request.requested_book.id)#book currently requested
+    requested_trades = BookDetails.objects.filter(added_by = request.user)#get the book to trade(added by the current user)
     context = {
         'requested_book' : book,
         'requested_trades' : requested_trades,
@@ -112,7 +117,7 @@ def request_update(request, id):
         requested_trade = BookDetails.objects.get(name = rtrade, added_by = requested_by.id)
         current_request = Request.objects.get(id = id)
         current_request.requested_trade = requested_trade
-        current_request.save()
+        current_request.save()#updated the book request
         return redirect('books-home')
     return render(request, 'books/request_update.html', context)
 

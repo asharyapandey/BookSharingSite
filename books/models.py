@@ -11,7 +11,7 @@ class BookDetails(models.Model):
     published_year = models.IntegerField()
     isbn = models.CharField(max_length = 13)
     description = models.TextField()
-    CATEGORY_OF_BOOKS =[
+    CATEGORY_OF_BOOKS =[#for creating a dropdown
         ('E','Educational'),
         ('F','Fiction'),
         ('N','Non-Fiction'),
@@ -43,6 +43,9 @@ class Request(models.Model):
 
     def __str__(self):
         return  f'requested book is { self.requested_book } trade is { self.requested_trade }'
+
+    def is_valid_request(self):
+        return self.requested_book.added_by != self.requested_trade.added_by
     
     class Meta:
         db_table = 'request_table'

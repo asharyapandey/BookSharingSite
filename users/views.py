@@ -5,10 +5,11 @@ from django.contrib.auth.decorators import login_required
 from books.models import BookDetails, Request
 
 
-@login_required(login_url='/users/login/')
+@login_required(login_url='/users/login/')# decorator to allow acces to only logged in user
 def profile(request, username):
     user = User.objects.get(username = username)
     user_books = BookDetails.objects.filter(added_by = user.id)
+    #filter user requests joining tables/models
     user_requests = Request.objects.filter(requested_trade__added_by__id = user.id)
     context = {
         'books' : user_books,
@@ -21,14 +22,14 @@ def register(request ):
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']
-        password = request.POST['password']
-        try:
+        password = request.POST['password'] 
+        try:#this is a check to see if the user with the same name is already registered
             user = User.objects.get(username = username)
             messages.warning(request, f'The Username is Already Taken.')
             return redirect('register')
         except User.DoesNotExist:
             user = User.objects.create_user(username = username, email = email, password = password)
-            auth.login(request, user)
+            auth.login(request, user)#directly log in the user after registration
             messages.info(request, f'Registration Successfull')
             return redirect('register')
 
@@ -38,7 +39,7 @@ def logout(request):
     auth.logout(request)
     return redirect('home_page')
 
-def login(request):
+def login(request):#view to check user login
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -67,6 +68,7 @@ def update(request, id):
     return render(request, 'users/register.html')
 
 def notification(request, username):
+    #joined tables to get the incoming and users book requests
     accepted_requests = Request.objects.filter(requested_trade__added_by__id = request.user.id)
     incoming_requests = Request.objects.filter(requested_book__added_by__id = request.user.id)
     context = {
@@ -74,6 +76,7 @@ def notification(request, username):
         'incoming_requests' : incoming_requests
     }
     if request.method == 'POST':
+        #to accept or reject incoming book requests done using AJAX 
         is_accepted = request.POST['is_accepted']
         request_id = request.POST['request_id']
         this_request = Request.objects.get(id = request_id)
