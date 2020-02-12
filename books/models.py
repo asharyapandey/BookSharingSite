@@ -8,7 +8,7 @@ class BookDetails(models.Model):
     author = models.CharField(max_length = 100)
     publisher = models.CharField(max_length = 500)
     pages =  models.IntegerField()
-    published_year = models.IntegerField()
+    published_year = models.IntegerField() #to store year only
     isbn = models.CharField(max_length = 13)
     description = models.TextField()
     CATEGORY_OF_BOOKS =[#for creating a dropdown
@@ -23,10 +23,11 @@ class BookDetails(models.Model):
     def __str__(self):
         return self.name
     
-    def get_absolute_url(self):
+    def get_absolute_url(self):#to create a canonical URL for an object
         return reverse('books-detail', kwargs={'pk' : self.pk})
 
     def delete(self, *args, **kwargs ):
+        #deletes image after the data is deleted
         self.image.delete()
         super().delete(*args, **kwargs)
 

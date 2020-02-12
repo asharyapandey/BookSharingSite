@@ -37,6 +37,7 @@ def register(request ):
 
 def logout(request):
     auth.logout(request)
+    messages.info(request, f'You Have Been Logged Out')
     return redirect('home_page')
 
 def login(request):#view to check user login
@@ -63,7 +64,7 @@ def update(request, id):
         user.username = username
         user.email = email
         user.save()
-        return redirect('profile')
+        return redirect('profile', username = request.user.username)
 
     return render(request, 'users/register.html')
 
