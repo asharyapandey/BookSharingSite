@@ -2,7 +2,6 @@ from django.test import TestCase
 from .models import BookDetails, Request
 from django.contrib.auth.models import User
 
-# Create your tests here.
 class ModelsTestCase(TestCase):
 
     def setUp(self):
@@ -17,7 +16,7 @@ class ModelsTestCase(TestCase):
             password = 'testUser1',
             email = 'testUser1@test.com'
         )
-        # creating a book
+        # creating books
         book_1 = BookDetails.objects.create(
             name='test1',
             author='test1',

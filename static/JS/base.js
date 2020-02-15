@@ -58,7 +58,6 @@ function acceptClick(event) {
 }
 
 
-
 function rejectClick(event) {
     const request = new XMLHttpRequest();
     request.open('POST', window.location.href);
@@ -87,70 +86,6 @@ function afterRejectClick(event) {
     requestStatus.innerHTML = '<span class="text-danger">Request Status : </span> Rejected ';
     btnReject.setAttribute('class', 'd-none');
 }
-// wat.forEach(element => {
-//     element.setAttribute('class', 'form-label-group')
-// });
-// registerForm.onsubmit = () => {
-//     if (validated) {
-//         const request = new XMLHttpRequest();
-//         request.open('POST', '/users/register/');
-//         request.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));//setting the csrf token for validation
-
-//         request.onload = () => {
-//             const returnData = JSON.parse(request.responseText);
-//             if (returnData['success']) {
-//                 errorText.removeAttribute('class', 'text-danger');
-//                 errorText.innerText = returnData['data'];
-//                 setTimeout(() => {
-//                     location.reload();
-//                 }, 3000);
-                
-//             } else {
-//                 errorText.setAttribute('class', 'text-danger');
-//                 errorText.innerText = returnData['data']; 
-//             } 
-//         }
-    
-//         const data = new FormData();
-//         data.append('username', username.value);
-//         data.append('email', email.value);
-//         data.append('password', password.value);
-
-//         request.send(data);
-//         return false;
-//     }
-// }   
-
-// loginForm.onsubmit = () => {
-//     const username = document.querySelector('#username');
-//     const password = document.querySelector('#password');
-//     const errorTextLogin = document.querySelector('#error-alert-login');
-
-//     const request = new XMLHttpRequest();
-//     request.open('POST', '/users/login/');
-//     request.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));//setting the csrf token for validation
-
-//     request.onload = () => {
-//         const returnData = JSON.parse(request.responseText);
-//         if (returnData['success']) {
-//             errorTextLogin.removeAttribute('class', 'text-danger');
-//             errorTextLogin.innerText = returnData['data'];
-//             setTimeout(() => {
-//                 location.reload();
-//             }, 3000);
-//         } else {
-//             errorTextLogin.setAttribute('class', 'text-danger');
-//             errorTextLogin.innerText = returnData['data']; 
-//         } 
-//     }
-
-//     const data = new FormData();
-//     data.append('username', username.value);
-//     data.append('password', password.value);
-
-//     request.send(data);
-//     return false;
-// }
 
 function getCookie(name) {
     var cookieValue = null;
